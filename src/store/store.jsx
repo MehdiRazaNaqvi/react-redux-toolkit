@@ -6,8 +6,9 @@ import counterReducer from "./counterslice.jsx"
 
 export const store = configureStore({
     reducer : {
-        counter : counterReducer    
+        counter : counterReducer   
     },
 })
+
 
 
