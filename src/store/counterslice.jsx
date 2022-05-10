@@ -2,19 +2,26 @@ import { createSlice } from '@reduxjs/toolkit'
 import { database } from "../firebase/firebase";
 
 import { set, ref, onValue } from 'firebase/database';
+import { async } from '@firebase/util';
 
 
 
-const initialState = [
-  
-]
+
+const initialState = {
+  value: 0,
+  posts: []
+}
+
+
 
 
 
 export const counterSlice = createSlice({
+
   name: 'counter',
 
   initialState,
+
 
   reducers: {
 
@@ -44,25 +51,8 @@ export const counterSlice = createSlice({
       });
 
       console.log("chalchuka")
+      decrement()
 
-
-    },
-
-
-    decrement: (state = initialState) => {
-
-      const starCountRef = ref(database, 'pics/');
-      onValue(starCountRef, (snapshot) => {
-        const data = snapshot.val();
-
-        state = (Object.values(data))
-        
-        
-
-
-      });
-
-      return state
 
 
 
@@ -71,13 +61,93 @@ export const counterSlice = createSlice({
 
 
 
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
+
+
+    decrement: (state , payload) => {
+
+
+        state.posts = payload.payload
+
+
+
+
+
+
+
+
+
+      // const fetchfirebase = async () => {
+
+
+      //   // const starCountRef = ref(database, 'pics/');
+
+      //   // onValue(starCountRef, (snapshot) => {
+
+      //   //   const data = snapshot.val();
+
+
+      //   //   const firebasedata = (Object.values(data))
+
+      //     // const firebasedata = ["mehdu", "shahhhahha"]
+
+      //     return firebasedata
+
+
+
+
+
+
+
+
+      //   // });
+
+
+
+      // }
+
+
+
+
+
+
+
+
+
+
+
+
+
     },
+
+
+
+
+
+    likefn: (state, py) => {
+
+      console.log(py.payload.count)
+      console.log(py.payload.v)
+
+
+      {
+        py.payload.count.map((v, i) => v.id == py.payload.v.id ? v.like == "true" : console.log("nae hai ander"))
+      }
+
+
+      // return state
+
+
+
+    }
+
+
+
   },
 })
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+
+
+
+export const { increment, decrement, likefn, fetchfirebase } = counterSlice.actions
 
 export default counterSlice.reducer

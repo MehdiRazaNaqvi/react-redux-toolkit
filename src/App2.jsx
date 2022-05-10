@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { increment } from './store/counterslice'
+import { decrement, increment } from './store/counterslice'
 
 
 import { signInWithPopup } from "firebase/auth"
@@ -92,7 +92,7 @@ const App = () => {
             <input className="form-control" type="text" onChange={(e) => { setpayload({ ...payload, pic: e.target.value }); console.log(payload) }} />
 
 
-            <button onClick={() => { dispatch(increment(payload)); }} >Click kro</button>
+            <button onClick={() => { dispatch(increment(payload)); navigate('/feed') }} >Click kro</button>
 
 
         </div>
