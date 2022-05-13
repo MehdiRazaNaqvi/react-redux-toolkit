@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { database } from "../firebase/firebase";
 
-import { set, ref, onValue } from 'firebase/database';
+import { set, ref, onValue, remove } from 'firebase/database';
 import { async } from '@firebase/util';
 
 
 
 
 const initialState = {
-  value: 0,
-  posts: []
+
+  posts: [],
+  currentUser: ""
+
 }
 
 
@@ -47,70 +49,13 @@ export const counterSlice = createSlice({
         pic: hanji.payload.pic,
         username: hanji.payload.username,
         userpic: hanji.payload.userpic,
-        id: rnd
+        id: rnd,
+        like: false,
+        likers: []
       });
 
+
       console.log("chalchuka")
-      decrement()
-
-
-
-
-    },
-
-
-
-
-
-
-    decrement: (state , payload) => {
-
-
-        state.posts = payload.payload
-
-
-
-
-
-
-
-
-
-      // const fetchfirebase = async () => {
-
-
-      //   // const starCountRef = ref(database, 'pics/');
-
-      //   // onValue(starCountRef, (snapshot) => {
-
-      //   //   const data = snapshot.val();
-
-
-      //   //   const firebasedata = (Object.values(data))
-
-      //     // const firebasedata = ["mehdu", "shahhhahha"]
-
-      //     return firebasedata
-
-
-
-
-
-
-
-
-      //   // });
-
-
-
-      // }
-
-
-
-
-
-
-
 
 
 
@@ -121,20 +66,39 @@ export const counterSlice = createSlice({
 
 
 
+
+
+
+    decrement: (state, payload) => {
+
+
+      state.posts = payload.payload
+
+
+    },
+
+
+
+
+    currentuser: (state, payload) => {
+
+
+      state.currentUser = payload.payload
+
+      // console.log(state.currentUser)
+
+      // console.log(payload.payload)
+
+    },
 
 
     likefn: (state, py) => {
 
-      console.log(py.payload.count)
-      console.log(py.payload.v)
+
+  
 
 
-      {
-        py.payload.count.map((v, i) => v.id == py.payload.v.id ? v.like == "true" : console.log("nae hai ander"))
-      }
 
-
-      // return state
 
 
 
@@ -148,6 +112,6 @@ export const counterSlice = createSlice({
 
 
 
-export const { increment, decrement, likefn, fetchfirebase } = counterSlice.actions
+export const { increment, decrement, currentuser, likefn } = counterSlice.actions
 
 export default counterSlice.reducer
