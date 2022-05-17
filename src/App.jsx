@@ -11,21 +11,24 @@ import likepic from "./pics/heart-fill.svg"
 import { set, ref, onValue, remove } from 'firebase/database';
 import { database } from "./firebase/firebase";
 
-
+import Example from "./navbar"
 
 
 
 import { auth } from "./firebase/firebase"
 import { GoogleAuthProvider } from "firebase/auth"
 import { signInWithPopup } from "firebase/auth"
+import { useNavigate } from 'react-router-dom';
 
 
 
+import alanBtn from "@alan-ai/alan-sdk-web";
 
 function App() {
 
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
 
   const fetchfirebase = () => {
@@ -57,7 +60,8 @@ function App() {
 
   // useEffect(() => {
 
-  //   dispatch(decrement())
+
+  //   fetchfirebase()
 
 
 
@@ -67,9 +71,38 @@ function App() {
 
 
 
+
+  useEffect(() => {
+
+    fetchfirebase()
+
+    alanBtn({
+
+      key: "c6eb400ab872978fad3b004399eccbd82e956eca572e1d8b807a3e2338fdd0dc/stage",
+      onCommand: (commandData) => {
+
+        // console.log(commandD.command)
+        if (commandData.command == "login") {
+          // navigate("/")
+          google_login()
+        }
+      }
+
+
+    });
+
+  }, []);
+
+
+
+
+
+
+
+
   const count = useSelector(state => state.counter)
   console.log(count.posts)
-  console.log(count.currentUser)
+
 
 
 
@@ -88,7 +121,7 @@ function App() {
       userpic: payload.userpic,
       id: payload.id,
       // like : true
-      likers: [count.currentUser]
+      // likers: [count.currentUser]
 
 
 
@@ -122,7 +155,7 @@ function App() {
 
         const user = result.user;
 
-        dispatch(currentuser(user.displayName))
+        dispatch(currentuser(user))
 
 
 
@@ -163,9 +196,36 @@ function App() {
 
     <div className="parent">
 
-      {/* <button onClick={() => { dispatch(decrement()); console.log(count) }} > Click kro</button> */}
-      <button onClick={() => fetchfirebase()} >Click kro to</button>
-      <button onClick={() => google_login()} >Google login</button>
+
+      <nav className="navbar">
+
+        <div className="container-fluid">
+          {/* <a class="navbar-brand" </a> */}
+          <img className="navbar-brand" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" />
+
+          <div className='content' >
+
+            <p onClick={() => navigate("/feed")} >Feed</p><p onClick={() => { count.currentUser.providerId == "firebase" ? navigate("/") : alert("log in first") }} >Post</p><p onClick={() => google_login()} >Log in</p> {count.currentUser.providerId == "firebase" ? <img referrerPolicy="no-referrer" className='round_img' src={count.currentUser.photoURL} /> : null}
+
+          </div>
+        </div>
+
+      </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <hr />
+
 
       {count.posts.map((v, i) =>
 
@@ -197,15 +257,11 @@ function App() {
 
           <div className="like">
 
-            <img onClick={() => like(v)} src={v.likers.includes(count.currentUser)? likepic : unlike} />
+            <img onClick={() => like(v)} src={unlike} />
 
           </div>
 
 
-          {/* <div className='coment' >
-            Comment
-
-          </div> */}
 
         </div>
 

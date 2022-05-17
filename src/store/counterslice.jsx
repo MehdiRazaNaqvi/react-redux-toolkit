@@ -10,7 +10,7 @@ import { async } from '@firebase/util';
 const initialState = {
 
   posts: [],
-  currentUser: ""
+  currentUser: {}
 
 }
 
@@ -80,10 +80,10 @@ export const counterSlice = createSlice({
 
 
 
-    currentuser: (state, payload) => {
+    currentuser: (state, pd) => {
 
 
-      state.currentUser = payload.payload
+      state.currentUser = pd.payload
 
       // console.log(state.currentUser)
 
@@ -91,6 +91,8 @@ export const counterSlice = createSlice({
 
     },
 
+
+    
 
     likefn: (state, py) => {
 
