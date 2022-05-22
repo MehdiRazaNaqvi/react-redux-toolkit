@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/react-redux-toolkit/static/css/main.8e629b34.css",
-    "main.js": "/react-redux-toolkit/static/js/main.0485b1e7.js",
+    "main.js": "/react-redux-toolkit/static/js/main.00343248.js",
     "static/js/787.af02f3ae.chunk.js": "/react-redux-toolkit/static/js/787.af02f3ae.chunk.js",
     "index.html": "/react-redux-toolkit/index.html",
     "static/media/heart.svg": "/react-redux-toolkit/static/media/heart.27cf625b15dd614828adb40336c2e861.svg",
     "static/media/heart-fill.svg": "/react-redux-toolkit/static/media/heart-fill.e3f0a020915a51214848cb362b7e6a7a.svg",
     "main.8e629b34.css.map": "/react-redux-toolkit/static/css/main.8e629b34.css.map",
-    "main.0485b1e7.js.map": "/react-redux-toolkit/static/js/main.0485b1e7.js.map",
+    "main.00343248.js.map": "/react-redux-toolkit/static/js/main.00343248.js.map",
     "787.af02f3ae.chunk.js.map": "/react-redux-toolkit/static/js/787.af02f3ae.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8e629b34.css",
-    "static/js/main.0485b1e7.js"
+    "static/js/main.00343248.js"
   ]
 }
