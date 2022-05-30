@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 import { database } from "../firebase/firebase";
 
 import { set, ref, onValue, remove } from 'firebase/database';
-import { async } from '@firebase/util';
+
 
 
 
@@ -50,8 +51,7 @@ export const counterSlice = createSlice({
         username: hanji.payload.username,
         userpic: hanji.payload.userpic,
         id: rnd,
-        like: false,
-        likers: []
+        likers: ""
       });
 
 
@@ -82,28 +82,44 @@ export const counterSlice = createSlice({
 
     currentuser: (state, pd) => {
 
-
-      state.currentUser = pd.payload
-
-      // console.log(state.currentUser)
-
-      // console.log(payload.payload)
-
-    },
-
-
-    
-
-    likefn: (state, py) => {
-
+      // console.log(pd.payload)
+      state.currentUser.username = pd.payload.username
+      state.currentUser.photoURL = pd.payload.photoURL
+      state.currentUser.providerId = pd.payload.providerId
+      state.currentUser.uid = pd.payload.uid
 
   
 
 
+    },
 
 
 
 
+    likefn: (state, py) => {
+
+
+
+
+
+
+
+
+
+    },
+
+
+
+
+    nayafn: (state, word) => {
+      console.log(word.payload)
+      const arr = [];
+      state.posts.map((v, i) => v.val == word.payload ? arr.push(v) : null)
+      console.log(arr)
+      state.posts = arr
+
+
+      // console.log(word.payload)
     }
 
 
@@ -114,6 +130,6 @@ export const counterSlice = createSlice({
 
 
 
-export const { increment, decrement, currentuser, likefn } = counterSlice.actions
+export const { increment, decrement, currentuser, likefn, nayafn } = counterSlice.actions
 
 export default counterSlice.reducer

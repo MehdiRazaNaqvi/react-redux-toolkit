@@ -30,7 +30,7 @@ const App = () => {
     const count = useSelector(state => state.counter)
 
 
-    const [payload, setpayload] = useState({ username: count.currentUser.displayName, userpic: count.currentUser.photoURL, pic: "" })
+    const [payload, setpayload] = useState({ username: count.currentUser.username, userpic: count.currentUser.photoURL, pic: "" })
 
 
 
@@ -47,7 +47,7 @@ const App = () => {
             <input className="form-control" type="text" onChange={(e) => { setpayload({ ...payload, pic: e.target.value }); console.log(payload) }} />
 
 
-            <button className="btn btn-outline-success" onClick={() => { dispatch(increment(payload)); navigate('/feed') }} >Post Now</button>
+            <button className="btn btn-outline-success" onClick={() => { dispatch(increment(payload)); navigate('/react-redux-toolkit') }} >Post Now</button>
 
 
 

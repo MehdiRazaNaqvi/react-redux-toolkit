@@ -2,16 +2,19 @@
 import { useSelector } from 'react-redux';
 import './App.css';
 import { useDispatch } from 'react-redux';
-import { increment, decrement, likefn, currentuser } from "./store/counterslice"
+import { increment, decrement, likefn, currentuser, nayafn } from "./store/counterslice"
 import { useEffect } from 'react';
 
 import unlike from "./pics/heart.svg"
 import likepic from "./pics/heart-fill.svg"
+import comment from "./pics/coment.png"
 
 import { set, ref, onValue, remove } from 'firebase/database';
 import { database } from "./firebase/firebase";
 
 import Example from "./navbar"
+
+import { useLayoutEffect } from 'react';
 
 
 
@@ -23,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 import alanBtn from "@alan-ai/alan-sdk-web";
+import { useState } from 'react';
 
 function App() {
 
@@ -30,6 +34,9 @@ function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const [commentshow, setcommentshow] = useState(false);
+
+  // console.log(count.posts)
 
   const fetchfirebase = () => {
 
@@ -58,50 +65,51 @@ function App() {
 
 
 
-  // useEffect(() => {
-
-
-  //   fetchfirebase()
-
-
-
-  // }, [110000])
-
-
-
-
-
-
   useEffect(() => {
+
 
     fetchfirebase()
 
-    alanBtn({
-
-      key: "c6eb400ab872978fad3b004399eccbd82e956eca572e1d8b807a3e2338fdd0dc/stage",
-      onCommand: (commandData) => {
-
-        // console.log(commandD.command)
-        if (commandData.command == "login") {
-          // navigate("/")
-          google_login()
-        }
-      }
 
 
-    });
-
-  }, []);
-
-
-
-
-
+  }, [])
 
 
 
   const count = useSelector(state => state.counter)
-  console.log(count.posts)
+
+
+
+
+  useLayoutEffect(() => {
+    function updateScreen(time) {
+
+      alanBtn({
+        key: "c6eb400ab872978fad3b004399eccbd82e956eca572e1d8b807a3e2338fdd0dc/stage",
+        onCommand: (commandData) => {
+          if (commandData.command === "filter") {
+
+            dispatch(nayafn(commandData.data))
+          }
+
+
+        }
+      })
+    }
+
+    requestAnimationFrame(updateScreen);
+  }, [])
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -111,22 +119,25 @@ function App() {
   const like = (payload) => {
 
 
+    {
+      count.currentUser.providerId ?
+
+
+        set(ref(database, `pics/${payload.id}`), {
+
+          pic: payload.pic,
+          username: payload.username,
+          userpic: payload.userpic,
+          id: payload.id,
+          likers: count.currentUser.uid
 
 
 
-    set(ref(database, `pics/${payload.id}`), {
+        })
 
-      pic: payload.pic,
-      username: payload.username,
-      userpic: payload.userpic,
-      id: payload.id,
-      // like : true
-      // likers: [count.currentUser]
-
-
-
-    });
-
+        :
+        alert("log in first")
+    }
 
 
 
@@ -155,7 +166,12 @@ function App() {
 
         const user = result.user;
 
-        dispatch(currentuser(user))
+
+
+        const obj = { username: user.displayName, photoURL: user.photoURL, providerId: user.providerId, uid: user.uid }
+
+
+        dispatch(currentuser(obj))
 
 
 
@@ -201,11 +217,11 @@ function App() {
 
         <div className="container-fluid">
           {/* <a class="navbar-brand" </a> */}
-          <img className="navbar-brand" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" />
+          <img onClick={() => fetchfirebase()} className="navbar-brand" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" />
 
           <div className='content' >
 
-            <p onClick={() => navigate("/feed")} >Feed</p><p onClick={() => { count.currentUser.providerId == "firebase" ? navigate("/") : alert("log in first") }} >Post</p><p onClick={() => google_login()} >Log in</p> {count.currentUser.providerId == "firebase" ? <img referrerPolicy="no-referrer" className='round_img' src={count.currentUser.photoURL} /> : null}
+            <p onClick={() => { navigate("/react-redux-toolkit"); fetchfirebase() }} >Feed</p><p onClick={() => { count.currentUser.providerId == "firebase" ? navigate("/react-redux-toolkit/post") : alert("log in first") }} >Post</p><p onClick={() => google_login()} >Log in</p> {count.currentUser.providerId == "firebase" ? <img referrerPolicy="no-referrer" className='round_img' src={count.currentUser.photoURL} /> : null}
 
           </div>
         </div>
@@ -257,9 +273,16 @@ function App() {
 
           <div className="like">
 
-            <img onClick={() => like(v)} src={unlike} />
+            <img className='like_img' onClick={() => like(v)} src={v.likers == count.currentUser.uid ? likepic : unlike} />
+
+            <img className='comment_img' src={comment} />
+
 
           </div>
+
+
+
+
 
 
 

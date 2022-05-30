@@ -1,15 +1,17 @@
-import { BrowserRouter as Router , Routes , Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 import Home from "./App2";
 import SHome from "./App";
 
 const App = () => {
-    return(
+    return (
         <div>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Home/>} />
-                    <Route path="/feed" element={<SHome/>} />
+
+                    <Route exact path="/react-redux-toolkit" element={<SHome />} />
+                    <Route path="/react-redux-toolkit/post" element={<Home />} />
+
                 </Routes>
             </Router>
 
