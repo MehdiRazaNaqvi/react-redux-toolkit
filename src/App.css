@@ -175,6 +175,10 @@ hr {
 
 @media screen and (max-width: 750px) {
 
+    .p{
+        font-size: 0.4rem;
+    }
+
     .post{
         width: 80%;
         height: 60vh;
@@ -217,4 +221,14 @@ hr {
     .content{
         width: 40%;
     }
+    .p{
+        font-size: 0.1rem;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+   .p{
+       font-size: 0.3rem;
+   }
 }
